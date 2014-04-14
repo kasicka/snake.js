@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Snake</title>
+</head>
+<body> 
+
+<canvas id="moje platno" style="background: #89a;" width="800" height="800">
+</canvas>
+
+<script type="text/javascript">
+	var canvas = document.getElementById('moje platno');
+	var context = canvas.getContext('2d');
+
+	var SnakeBlockSize = 35;
+
+	function drawBlock(x, y) {
+		context.beginPath();
+		context.rect(x, y, SnakeBlockSize, SnakeBlockSize);
+		context.fillStyle = 'yellow';
+		context.fill();
+		context.lineWidth = 7;
+		context.strokeStyle = 'black';
+		context.stroke();
+	}
+
+	drawBlock(4, 4);
+
+	drawBlock(4 + SnakeBlockSize, 4);
+
+
+
+</script>
+
+</body>
+</html>
