@@ -5,18 +5,20 @@
 </head>
 <body> 
 
-<canvas id="moje platno" style="background: #89a;" width="800" height="800">
+<canvas id="moje platno" style="background: rgb(131, 166, 197); border: solid black 4px">
 </canvas>
 
 <script type="text/javascript">
+	const WIDTH = 50;
+	const HEIGHT = 30;
+	const BLOCK_SIZE = 25;
+
 	var canvas = document.getElementById('moje platno');
 	var context = canvas.getContext('2d');
 
-	var SnakeBlockSize = 35;
-
-	function drawBlock(x, y) {
+	function drawBlock(x, y, size) {
 		context.beginPath();
-		context.rect(x, y, SnakeBlockSize, SnakeBlockSize);
+		context.rect(x, y, size, size);
 		context.fillStyle = 'yellow';
 		context.fill();
 		context.lineWidth = 7;
@@ -24,11 +26,57 @@
 		context.stroke();
 	}
 
-	drawBlock(4, 4);
+	var blocks = [
+		{x: 5, y: 5},
+		{x: 10, y: 10},
+		{x: 15, y: 15},
+	];
 
-	drawBlock(4 + SnakeBlockSize, 4);
+	for (var i = 0; i < blocks.length; i++) {
+		drawBlock(blocks[i].x, blocks[i].y);
+	};
 
+	function Board(canvas, width, height, blockSize) {
+		this.canvas = canvas;
+		this.width = width;
+		this.height = height;
+		this.blockSize = blockSize;
 
+		canvas.width = blockSize * width;
+		canvas.height = blockSize * height;
+
+		this.blocks = new Array(height);
+		for (var i = 0; i < this.blocks.length; i++) {
+			this.blocks[i] = new Array(width);
+		}
+	}
+
+	Board.prototype.draw = function() {
+		for (var i = 0; i < this.blocks.length; i++) {
+			for (var j = 0; j < this.blocks[i].length; j++) {
+				if (this.blocks[i][j]) {
+					var x = this.blockSize * j;
+					var y = this.blockSize * i;
+					drawBlock(x, y, this.blockSize);
+				}
+			};
+			
+		};
+	}
+	
+	console.log(WIDTH);
+
+	var board = new Board(canvas, WIDTH, HEIGHT, BLOCK_SIZE);
+	board.blocks[0][0] = true;
+	board.blocks[1][0] = true;
+	board.blocks[15][10] = true;
+	board.draw();
+
+	console.log(board);
+
+	//drawBlock(4, 4);
+
+	//drawBlock(4 + SnakeBlockSize, 4);
 
 </script>
 
