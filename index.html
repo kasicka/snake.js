@@ -13,29 +13,6 @@
 	const HEIGHT = 30;
 	const BLOCK_SIZE = 25;
 
-	var canvas = document.getElementById('moje platno');
-	var context = canvas.getContext('2d');
-
-	function drawBlock(x, y, size) {
-		context.beginPath();
-		context.rect(x, y, size, size);
-		context.fillStyle = 'yellow';
-		context.fill();
-		context.lineWidth = 7;
-		context.strokeStyle = 'black';
-		context.stroke();
-	}
-
-	var blocks = [
-		{x: 5, y: 5},
-		{x: 10, y: 10},
-		{x: 15, y: 15},
-	];
-
-	for (var i = 0; i < blocks.length; i++) {
-		drawBlock(blocks[i].x, blocks[i].y);
-	};
-
 	function Board(canvas, width, height, blockSize) {
 		this.canvas = canvas;
 		this.width = width;
@@ -44,6 +21,8 @@
 
 		canvas.width = blockSize * width;
 		canvas.height = blockSize * height;
+
+		this.context = canvas.getContext('2d');
 
 		this.blocks = new Array(height);
 		for (var i = 0; i < this.blocks.length; i++) {
@@ -57,14 +36,26 @@
 				if (this.blocks[i][j]) {
 					var x = this.blockSize * j;
 					var y = this.blockSize * i;
-					drawBlock(x, y, this.blockSize);
+					this.drawBlock(x, y);
 				}
-			};
-			
-		};
+			}			
+		}
 	}
+
+	Board.prototype.drawBlock = function(x, y) {
+		var size = this.blockSize;
+		this.context.beginPath();
+		this.context.rect(x, y, size, size);
+		this.context.fillStyle = 'yellow';
+		this.context.fill();
+		this.context.lineWidth = 7;
+		this.context.strokeStyle = 'black';
+		this.context.stroke();		
+	};
 	
 	console.log(WIDTH);
+
+	var canvas = document.getElementById('moje platno');
 
 	var board = new Board(canvas, WIDTH, HEIGHT, BLOCK_SIZE);
 	board.blocks[0][0] = true;
